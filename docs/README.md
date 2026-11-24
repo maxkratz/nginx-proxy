@@ -40,7 +40,7 @@ docker run --detach \
     --publish 80:80 \
     --env DEFAULT_HOST=foo.bar.com \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 nginx-proxy will then redirect all requests to a container where `VIRTUAL_HOST` is set to `DEFAULT_HOST`, if they don't match any (other) `VIRTUAL_HOST`. Using the example above requests without matching `VIRTUAL_HOST` will be redirected to a plain nginx instance after running the following command:
@@ -250,7 +250,7 @@ docker run --detach \
     --env HTTP_PORT=1080 \
     --env HTTPS_PORT=10443 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 #### Per-container external ports
@@ -319,7 +319,7 @@ docker run --detach \
     --publish 80:80 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --net my-network \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 docker network connect my-other-network my-nginx-proxy
 ```
 
@@ -388,7 +388,7 @@ Docker Compose example:
 ```yaml
 services:
   nginx-proxy:
-    image: nginxproxy/nginx-proxy
+    image: maxkratz/nginx-proxy
     ports:
       - "80:80"
     volumes:
@@ -429,7 +429,7 @@ docker run --detach \
     --volume /path/to/htpasswd:/etc/nginx/htpasswd \
     --volume /path/to/certs:/etc/nginx/certs \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 If you want to define basic authentication for a `VIRTUAL_PATH`, you have to create a file named as `/etc/nginx/htpasswd/${VIRTUAL_HOST}_${VIRTUAL_PATH_SHA1}`
@@ -528,7 +528,7 @@ docker run --detach \
     --publish 80:80 \
     --env NO_COLOR=1 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 ⬆️ [back to table of contents](#table-of-contents)
@@ -545,7 +545,7 @@ docker run --detach \
     --publish 443:443 \
     --volume /path/to/certs:/etc/nginx/certs \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 The contents of `/path/to/certs` should contain the certificates and private keys for any virtual hosts in use. The certificate and keys should be named after the virtual host with a `.crt` and `.key` extension. For example, a container with `VIRTUAL_HOST=foo.bar.com` should have a `foo.bar.com.crt` and `foo.bar.com.key` file in the certs directory.
@@ -802,7 +802,7 @@ docker run --detach \
     --publish 80:80 \
     --env ENABLE_IPV6=true \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 ### Custom DNS Resolvers
@@ -816,7 +816,7 @@ docker run --detach \
     --publish 80:80 \
     --env RESOLVERS=8.8.8.8 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 ### Scoped IPv6 Resolvers
@@ -851,7 +851,7 @@ docker run --detach \
     --publish 443:443/tcp \
     --publish 443:443/udp \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 HTTP/3 can be enabled either per-proxied container or globally:
@@ -942,7 +942,7 @@ To add settings on a proxy-wide basis, add your configuration file under `/etc/n
 This can be done in a derived image by creating the file in a `RUN` command or by `COPY`ing the file into `conf.d`:
 
 ```Dockerfile
-FROM nginxproxy/nginx-proxy
+FROM maxkratz/nginx-proxy
 RUN { \
       echo 'server_tokens off;'; \
       echo 'client_max_body_size 100m;'; \
@@ -967,7 +967,7 @@ docker run --detach \
     --publish 443:443 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --volume /path/to/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 </details>
@@ -978,7 +978,7 @@ docker run --detach \
 ```yaml
 services:
   proxy:
-    image: nginxproxy/nginx-proxy
+    image: maxkratz/nginx-proxy
     container_name: nginx-proxy
     ports:
       - "80:80"
@@ -1021,7 +1021,7 @@ docker run --detach \
     --publish 443:443 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --volume /path/to/custom-vhost-config.conf:/etc/nginx/vhost.d/app.example.com:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 </details>
@@ -1032,7 +1032,7 @@ docker run --detach \
 ```yaml
 services:
   proxy:
-    image: nginxproxy/nginx-proxy
+    image: maxkratz/nginx-proxy
     container_name: nginx-proxy
     ports:
       - "80:80"
@@ -1057,7 +1057,7 @@ docker run --detach \
     --volume /path/to/custom-vhost-config.conf:/etc/nginx/vhost.d/example.com:ro \
     --volume /path/to/custom-vhost-config.conf:/etc/nginx/vhost.d/www.example.com:ro \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 </details>
@@ -1068,7 +1068,7 @@ docker run --detach \
 ```yaml
 services:
   proxy:
-    image: nginxproxy/nginx-proxy
+    image: maxkratz/nginx-proxy
     container_name: nginx-proxy
     ports:
       - "80:80"
@@ -1112,7 +1112,7 @@ docker run --detach \
     --publish 443:443 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --volume /path/to/custom-vhost-location-config.conf:/etc/nginx/vhost.d/app.example.com_location:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 </details>
@@ -1123,7 +1123,7 @@ docker run --detach \
 ```yaml
 services:
   proxy:
-    image: nginxproxy/nginx-proxy
+    image: maxkratz/nginx-proxy
     container_name: nginx-proxy
     ports:
       - "80:80"
@@ -1148,7 +1148,7 @@ docker run --detach \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --volume /path/to/custom-vhost-location-config.conf:/etc/nginx/vhost.d/example.com_location:ro \
     --volume /path/to/custom-vhost-location-config.conf:/etc/nginx/vhost.d/www.example.com_location:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 </details>
@@ -1159,7 +1159,7 @@ docker run --detach \
 ```yaml
 services:
   proxy:
-    image: nginxproxy/nginx-proxy
+    image: maxkratz/nginx-proxy
     container_name: nginx-proxy
     ports:
       - "80:80"
@@ -1216,7 +1216,7 @@ docker run --detach \
     --publish 80:80 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --volume /path/to/error.html:/usr/share/nginx/html/errors/50x.html:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 > [!NOTE]
@@ -1272,7 +1272,7 @@ docker run --detach \
     --publish 53:53:udp \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --volume ./stream.conf:/etc/nginx/toplevel.conf.d/stream.conf:ro \
-    nginxproxy/nginx-proxy
+    maxkratz/nginx-proxy
 ```
 
 > [!NOTE]
@@ -1303,7 +1303,7 @@ See the [Docker CLI documentation](https://docs.docker.com/reference/cli/docker/
 
 ## Separate Containers
 
-nginx-proxy can also be run as two separate containers using the [nginxproxy/nginx-proxy:dockergen](https://hub.docker.com/r/nginxproxy/nginx-proxy/tags?name=dockergen) image and the official [nginx](https://registry.hub.docker.com/_/nginx/) image. This image is a stripped down version of the main nginx-proxy image that only contains the `docker-gen` binary and the `nginx.tmpl` template file. It does not contain nginx itself, so it must be run alongside an nginx container. Its follow the same release tags as the other images, suffixing the tag with `-dockergen` (eg `nginxproxy/nginx-proxy:1.11-dockergen`).
+nginx-proxy can also be run as two separate containers using the [nginxproxy/nginx-proxy:dockergen](https://hub.docker.com/r/maxkratz/nginx-proxy/tags?name=dockergen) image and the official [nginx](https://registry.hub.docker.com/_/nginx/) image. This image is a stripped down version of the main nginx-proxy image that only contains the `docker-gen` binary and the `nginx.tmpl` template file. It does not contain nginx itself, so it must be run alongside an nginx container. Its follow the same release tags as the other images, suffixing the tag with `-dockergen` (eg `maxkratz/nginx-proxy:1.11-dockergen`).
 
 You may want to use this setup to prevent having the docker socket bound to a publicly exposed container service (you should run the docker-gen container in an [internal network](https://docs.docker.com/reference/cli/docker/network/create/#internal), unreachable from the outside), or to use a custom nginx image (for example, one that includes additional modules).
 
@@ -1398,7 +1398,7 @@ Recommended shared volumes between `nginx` and `docker-gen`:
 ```yaml
 services:
   nginx-proxy:
-    image: nginxproxy/nginx-proxy
+    image: maxkratz/nginx-proxy
     ports:
       - "80:80"
     volumes:
@@ -1601,7 +1601,7 @@ Querying the debug endpoint will show the global config, along with the virtual 
 ```yaml
 services:
   nginx-proxy:
-    image: nginxproxy/nginx-proxy
+    image: maxkratz/nginx-proxy
     ports:
       - "80:80"
     volumes:

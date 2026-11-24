@@ -29,7 +29,7 @@ services:
       - com.github.nginx-proxy.nginx-proxy.nginx
 
   dockergen:
-    image: nginxproxy/nginx-proxy:dockergen
+    image: maxkratz/nginx-proxy:dockergen
     container_name: dockergen
     networks:
       - private

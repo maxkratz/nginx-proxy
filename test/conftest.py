@@ -104,11 +104,11 @@ class RequestsForDocker:
         """
         Return list of containers
         """
-        nginx_proxy_containers = docker_client.containers.list(filters={"ancestor": "nginxproxy/nginx-proxy:test"})
+        nginx_proxy_containers = docker_client.containers.list(filters={"ancestor": "maxkratz/nginx-proxy:test"})
         if len(nginx_proxy_containers) > 1:
-            pytest.fail("Too many running nginxproxy/nginx-proxy:test containers", pytrace=False)
+            pytest.fail("Too many running maxkratz/nginx-proxy:test containers", pytrace=False)
         elif len(nginx_proxy_containers) == 0:
-            pytest.fail("No running nginxproxy/nginx-proxy:test container", pytrace=False)
+            pytest.fail("No running maxkratz/nginx-proxy:test container", pytrace=False)
         return nginx_proxy_containers.pop()
 
     def get_conf(self) -> bytes:
@@ -220,7 +220,7 @@ def container_ipv6(container: Container) -> str:
 def nginx_proxy_dns_resolver(domain_name: str) -> Optional[str]:
     """
     if "nginx-proxy" if found in host, return the ip address of the docker container
-    issued from the docker image nginxproxy/nginx-proxy:test or nginx:latest.
+    issued from the docker image maxkratz/nginx-proxy:test or nginx:latest.
 
     :return: IP or None
     """
@@ -228,18 +228,18 @@ def nginx_proxy_dns_resolver(domain_name: str) -> Optional[str]:
     log.debug(f"nginx_proxy_dns_resolver({domain_name!r})")
 
     if 'nginx-proxy' in domain_name:
-        nginxproxy_containers = docker_client.containers.list(filters={"status": "running", "ancestor": "nginxproxy/nginx-proxy:test"})
+        nginxproxy_containers = docker_client.containers.list(filters={"status": "running", "ancestor": "maxkratz/nginx-proxy:test"})
         nginx_containers = docker_client.containers.list(filters={"status": "running", "ancestor": "nginx:latest"})
 
         if len(nginxproxy_containers) == 0 and len(nginx_containers) == 0:
-            log.warning(f"no running container found from image nginxproxy/nginx-proxy:test or nginx:latest while resolving {domain_name!r}")
+            log.warning(f"no running container found from image maxkratz/nginx-proxy:test or nginx:latest while resolving {domain_name!r}")
 
-            exited_nginxproxy_containers = docker_client.containers.list(filters={"status": "exited", "ancestor": "nginxproxy/nginx-proxy:test"})
+            exited_nginxproxy_containers = docker_client.containers.list(filters={"status": "exited", "ancestor": "maxkratz/nginx-proxy:test"})
             exited_nginx_containers = docker_client.containers.list(filters={"status": "exited", "ancestor": "nginx:latest"})
 
             if len(exited_nginxproxy_containers) > 0:
                 exited_nginxproxy_container_logs = exited_nginxproxy_containers[0].logs()
-                log.warning(f"nginxproxy/nginx-proxy:test container might have exited unexpectedly. Container logs: " + "\n" + exited_nginxproxy_container_logs.decode())
+                log.warning(f"maxkratz/nginx-proxy:test container might have exited unexpectedly. Container logs: " + "\n" + exited_nginxproxy_container_logs.decode())
             if len(exited_nginx_containers) > 0:
                 exited_nginx_container_logs = exited_nginx_containers[0].logs()
                 log.warning(f"nginx:latest container might have exited unexpectedly. Container logs: " + "\n" + exited_nginx_container_logs.decode())
@@ -295,7 +295,7 @@ def monkey_patch_urllib_dns_resolver():
     """
     Alter the behavior of the urllib DNS resolver so that any domain name
     containing substring 'nginx-proxy' will resolve to the IP address
-    of the container created from image 'nginxproxy/nginx-proxy:test',
+    of the container created from image 'maxkratz/nginx-proxy:test',
     or to 127.0.0.1 on Darwin.
 
     see https://docs.docker.com/desktop/features/networking/#i-want-to-connect-to-a-container-from-the-host
@@ -391,11 +391,11 @@ def docker_compose_down(compose_files: List[str], project_name: str):
 
 def wait_for_nginxproxy_to_be_ready():
     """
-    Wait for logs of running containers started from image nginxproxy/nginx-proxy:test and/or
-    nginxproxy/nginx-proxy:test-dockergen to contain the substring "Watching docker events"
+    Wait for logs of running containers started from image maxkratz/nginx-proxy:test and/or
+    maxkratz/nginx-proxy:test-dockergen to contain the substring "Watching docker events"
     """
-    nginx_proxy_containers = docker_client.containers.list(filters={"status": "running", "ancestor": "nginxproxy/nginx-proxy:test"})
-    docker_gen_containers = docker_client.containers.list(filters={"status": "running", "ancestor": "nginxproxy/nginx-proxy:test-dockergen"})
+    nginx_proxy_containers = docker_client.containers.list(filters={"status": "running", "ancestor": "maxkratz/nginx-proxy:test"})
+    docker_gen_containers = docker_client.containers.list(filters={"status": "running", "ancestor": "maxkratz/nginx-proxy:test-dockergen"})
 
     containers = nginx_proxy_containers + docker_gen_containers
 
@@ -666,7 +666,7 @@ def acme_challenge_path() -> str:
 # pytest hook to display additional stuff in test report
 def pytest_runtest_logreport(report):
     if report.failed:
-        test_containers = docker_client.containers.list(all=True, filters={"ancestor": "nginxproxy/nginx-proxy:test"})
+        test_containers = docker_client.containers.list(all=True, filters={"ancestor": "maxkratz/nginx-proxy:test"})
         for container in test_containers:
             report.longrepr.addsection('nginx-proxy logs', container.logs().decode())
             report.longrepr.addsection('nginx-proxy conf', get_nginx_conf_from_container(container).decode())
@@ -692,9 +692,9 @@ def pytest_runtest_setup(item):
 ###############################################################################
 
 try:
-    docker_client.images.get('nginxproxy/nginx-proxy:test')
+    docker_client.images.get('maxkratz/nginx-proxy:test')
 except docker.errors.ImageNotFound:
-    pytest.exit("The docker image 'nginxproxy/nginx-proxy:test' is missing")
+    pytest.exit("The docker image 'maxkratz/nginx-proxy:test' is missing")
 
 if Version(docker.__version__) < Version("5.0.0"):
     pytest.exit("This test suite is meant to work with the python docker module v5.0.0 or later")

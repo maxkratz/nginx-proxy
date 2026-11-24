@@ -28,7 +28,7 @@ services:
   # `certs` required to enable HTTPS via template
   with_default_group:
     container_name: dh-default
-    image: &img-nginxproxy nginxproxy/nginx-proxy:test
+    image: &img-nginxproxy maxkratz/nginx-proxy:test
     environment: &env-common
       - &default-host DEFAULT_HOST=web5.nginx-proxy.tld
     volumes: &vols-common
