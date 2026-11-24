@@ -15,7 +15,7 @@ services:
       - "com.github.nginx-proxy.nginx-proxy.nginx"
 
   nginx-proxy-dockergen:
-    image: nginxproxy/nginx-proxy:test-dockergen
+    image: maxkratz/nginx-proxy:test-dockergen
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - nginx_conf:/etc/nginx/conf.d

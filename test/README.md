@@ -74,7 +74,7 @@ The first file contains the base configuration of the nginx-proxy container comm
 ```yaml
 services:
   nginx-proxy:
-    image: nginxproxy/nginx-proxy:test
+    image: maxkratz/nginx-proxy:test
     container_name: nginx-proxy
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
@@ -97,7 +97,7 @@ In your tests, you can use the `docker_compose` variable to query and command th
 
 Also this fixture alters the way the python interpreter resolves domain names to IP addresses in the following ways:
 
-Any domain name containing the substring `nginx-proxy` will resolve to `127.0.0.1` if the tests are executed on a Darwin (macOS) system, otherwise the IP address of the container that was created from the `nginxproxy/nginx-proxy:test` image.
+Any domain name containing the substring `nginx-proxy` will resolve to `127.0.0.1` if the tests are executed on a Darwin (macOS) system, otherwise the IP address of the container that was created from the `maxkratz/nginx-proxy:test` image.
 
 So, in tests, all the following domain names will resolve to either localhost or the nginx-proxy container's IP:
 

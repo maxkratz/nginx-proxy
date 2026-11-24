@@ -21,9 +21,9 @@
 [![Test](https://github.com/nginx-proxy/nginx-proxy/actions/workflows/test.yml/badge.svg)](https://github.com/nginx-proxy/nginx-proxy/actions/workflows/test.yml)
 [![GitHub release](https://img.shields.io/github/v/release/nginx-proxy/nginx-proxy)](https://github.com/nginx-proxy/nginx-proxy/releases)
 [![nginx 1.31.6](https://img.shields.io/badge/nginx-1.31.6-brightgreen.svg?logo=nginx)](https://nginx.org/en/CHANGES)
-[![Docker Image Size](https://img.shields.io/docker/image-size/nginxproxy/nginx-proxy?sort=semver)](https://hub.docker.com/r/nginxproxy/nginx-proxy "Click to view the image on Docker Hub")
-[![Docker stars](https://img.shields.io/docker/stars/nginxproxy/nginx-proxy.svg)](https://hub.docker.com/r/nginxproxy/nginx-proxy "DockerHub")
-[![Docker pulls](https://img.shields.io/docker/pulls/nginxproxy/nginx-proxy.svg)](https://hub.docker.com/r/nginxproxy/nginx-proxy "DockerHub")
+[![Docker Image Size](https://img.shields.io/docker/image-size/maxkratz/nginx-proxy?sort=semver)](https://hub.docker.com/r/maxkratz/nginx-proxy "Click to view the image on Docker Hub")
+[![Docker stars](https://img.shields.io/docker/stars/maxkratz/nginx-proxy.svg)](https://hub.docker.com/r/maxkratz/nginx-proxy "DockerHub")
+[![Docker pulls](https://img.shields.io/docker/pulls/maxkratz/nginx-proxy.svg)](https://hub.docker.com/r/maxkratz/nginx-proxy "DockerHub")
 
 nginx-proxy sets up a container running nginx and [docker-gen](https://github.com/nginx-proxy/docker-gen). docker-gen generates reverse proxy configs for nginx and reloads nginx when containers are started and stopped.
 
@@ -38,7 +38,7 @@ docker run --detach \
     --name nginx-proxy \
     --publish 80:80 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-    nginxproxy/nginx-proxy:1.11
+    maxkratz/nginx-proxy:1.11
 ```
 
 Then start any containers (here an nginx container) you want proxied with an env var `VIRTUAL_HOST=subdomain.yourdomain.com`
@@ -68,7 +68,7 @@ The nginx-proxy images are available in two flavors.
 This image is based on the nginx:mainline image, itself based on the debian slim image.
 
 ```shell
-docker pull nginxproxy/nginx-proxy:1.11
+docker pull maxkratz/nginx-proxy:1.11
 ```
 
 #### Alpine based version (`-alpine` suffix)
@@ -76,7 +76,7 @@ docker pull nginxproxy/nginx-proxy:1.11
 This image is based on the nginx:alpine image.
 
 ```shell
-docker pull nginxproxy/nginx-proxy:1.11-alpine
+docker pull maxkratz/nginx-proxy:1.11-alpine
 ```
 
 #### Dockergen version (`-dockergen` suffix)
@@ -84,16 +84,16 @@ docker pull nginxproxy/nginx-proxy:1.11-alpine
 This image is meant to be used in a [separate containers](https://github.com/nginx-proxy/nginx-proxy/blob/main/docs/README.md#separate-containers) setup with the official [nginx](https://registry.hub.docker.com/_/nginx/) image.
 
 ```shell
-docker pull nginxproxy/nginx-proxy:1.11-dockergen
+docker pull maxkratz/nginx-proxy:1.11-dockergen
 ```
 
 > [!IMPORTANT]
 >
 > #### A note on `latest`, `alpine` and `dockergen` tags:
 >
-> It is not recommended to use the `latest` (`nginxproxy/nginx-proxy`, `nginxproxy/nginx-proxy:latest`), `alpine` (`nginxproxy/nginx-proxy:alpine`) or `dockergen` (`nginxproxy/nginx-proxy:dockergen`) tag for production setups.
+> It is not recommended to use the `latest` (`maxkratz/nginx-proxy`, `maxkratz/nginx-proxy:latest`), `alpine` (`maxkratz/nginx-proxy:alpine`) or `dockergen` (`maxkratz/nginx-proxy:dockergen`) tag for production setups.
 >
-> [Those tags point](https://hub.docker.com/r/nginxproxy/nginx-proxy/tags) to the latest commit in the `main` branch. They do not carry any promise of stability, and using them will probably put your nginx-proxy setup at risk of experiencing uncontrolled updates to non backward compatible versions (or versions with breaking changes). You should always specify the version you want to use explicitly to ensure your setup doesn't break when the image is updated.
+> [Those tags point](https://hub.docker.com/r/maxkratz/nginx-proxy/tags) to the latest commit in the `main` branch. They do not carry any promise of stability, and using them will probably put your nginx-proxy setup at risk of experiencing uncontrolled updates to non backward compatible versions (or versions with breaking changes). You should always specify the version you want to use explicitly to ensure your setup doesn't break when the image is updated.
 
 ### Additional documentation
 
