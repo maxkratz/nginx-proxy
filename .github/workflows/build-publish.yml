@@ -49,9 +49,8 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: |
-            ghcr.io/nginx-proxy/nginx-proxy
-            nginxproxy/nginx-proxy
-            jwilder/nginx-proxy
+            ghcr.io/maxkratz/nginx-proxy
+            maxkratz/nginx-proxy
           tags: |
             type=semver,pattern={{version}},enable=${{ matrix.flavor == 'debian' }}
             type=semver,pattern={{major}}.{{minor}},enable=${{ matrix.flavor == 'debian' }}
