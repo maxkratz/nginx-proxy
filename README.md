@@ -20,7 +20,7 @@
 
 [![Test](https://github.com/maxkratz/nginx-proxy/actions/workflows/test.yml/badge.svg)](https://github.com/maxkratz/nginx-proxy/actions/workflows/test.yml)
 [![GitHub release](https://img.shields.io/github/v/release/maxkratz/nginx-proxy)](https://github.com/maxkratz/nginx-proxy/releases)
-[![nginx 1.31.9](https://img.shields.io/badge/nginx-1.31.9-brightgreen.svg?logo=nginx)](https://nginx.org/en/CHANGES)
+[![nginx 1.31.10](https://img.shields.io/badge/nginx-1.31.10-brightgreen.svg?logo=nginx)](https://nginx.org/en/CHANGES)
 [![Docker Image Size](https://img.shields.io/docker/image-size/maxkratz/nginx-proxy?sort=semver)](https://hub.docker.com/r/maxkratz/nginx-proxy "Click to view the image on Docker Hub")
 [![Docker stars](https://img.shields.io/docker/stars/maxkratz/nginx-proxy.svg)](https://hub.docker.com/u/maxkratz/nginx-proxy "DockerHub")
 [![Docker pulls](https://img.shields.io/docker/pulls/maxkratz/nginx-proxy.svg)](https://hub.docker.com/u/maxkratz/nginx-proxy "DockerHub")
