@@ -228,7 +228,7 @@ Examples (YAML syntax):
 
 - `DEFAULT_ROOT: "none"` prevents `nginx-proxy` from generating a default `location /` directive.
 - `DEFAULT_ROOT: "418"` returns a 418 error page instead of the normal 404 one.
-- `DEFAULT_ROOT: "301 https://github.com/nginx-proxy/nginx-proxy/blob/main/README.md"` redirects the client to this documentation.
+- `DEFAULT_ROOT: "301 https://github.com/maxkratz/nginx-proxy/blob/main/README.md"` redirects the client to this documentation.
 
 Nginx variables such as `$scheme`, `$host`, and `$request_uri` can be used. However, care must be taken to make sure the `$` signs are escaped properly. For example, if you want to use `301 $scheme://$host/myapp1$request_uri` you should use:
 
@@ -471,7 +471,7 @@ If you want to use a global CRL file you have to copy your CRL file named as `ca
 > Make sure you rotate the CRL before it's expiration date, even if nothing has changed. An expired CRL will make Nginx unable to validate the certificates that were issued.
 
 ### optional ssl_verify_client
-Optional [`ssl_verify_client`](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_verify_client) can be activated by using the `com.github.nginx-proxy.nginx-proxy.ssl_verify_client: "optional"` label on a proxied container. If this label is set on a proxied container access is not blocked but the result of the mTLS verify is stored in the [$ssl_client_verify](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#var_ssl_client_verify) variable which you can use this in the [Per-VIRTUAL_HOST location](https://github.com/nginx-proxy/nginx-proxy/tree/main/docs#per-virtual_host-location-configuration) and [Per-VIRTUAL_PATH location](https://github.com/nginx-proxy/nginx-proxy/tree/main/docs#per-virtual_path-location-configuration) configurations.
+Optional [`ssl_verify_client`](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_verify_client) can be activated by using the `com.github.nginx-proxy.nginx-proxy.ssl_verify_client: "optional"` label on a proxied container. If this label is set on a proxied container access is not blocked but the result of the mTLS verify is stored in the [$ssl_client_verify](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#var_ssl_client_verify) variable which you can use this in the [Per-VIRTUAL_HOST location](https://github.com/maxkratz/nginx-proxy/tree/main/docs#per-virtual_host-location-configuration) and [Per-VIRTUAL_PATH location](https://github.com/maxkratz/nginx-proxy/tree/main/docs#per-virtual_path-location-configuration) configurations.
 
 ⬆️ [back to table of contents](#table-of-contents)
 
@@ -566,7 +566,7 @@ By default, nginx-proxy does not handle ACME HTTP Challenges for unknown virtual
 
 ### Diffie-Hellman Groups
 
-[RFC7919 groups](https://datatracker.ietf.org/doc/html/rfc7919#appendix-A) with key lengths of 2048, 3072, and 4096 bits are [provided by `nginx-proxy`](https://github.com/nginx-proxy/nginx-proxy/dhparam). The ENV `DHPARAM_BITS` can be set to `2048` or `3072` to change from the default 4096-bit key. The DH key file will be located in the container at `/etc/nginx/dhparam/dhparam.pem`. Mounting a different `dhparam.pem` file at that location will override the RFC7919 key.
+[RFC7919 groups](https://datatracker.ietf.org/doc/html/rfc7919#appendix-A) with key lengths of 2048, 3072, and 4096 bits are [provided by `nginx-proxy`](https://github.com/maxkratz/nginx-proxy/dhparam). The ENV `DHPARAM_BITS` can be set to `2048` or `3072` to change from the default 4096-bit key. The DH key file will be located in the container at `/etc/nginx/dhparam/dhparam.pem`. Mounting a different `dhparam.pem` file at that location will override the RFC7919 key.
 
 To use custom `dhparam.pem` files per-virtual-host, the files should be named after the virtual host with a `dhparam` suffix and `.pem` extension. For example, a container with `VIRTUAL_HOST=foo.bar.com` should have a `foo.bar.com.dhparam.pem` file in the `/etc/nginx/certs` directory.
 
@@ -821,7 +821,7 @@ docker run --detach \
 
 ### Scoped IPv6 Resolvers
 
-Nginx does not support scoped IPv6 resolvers. In [docker-entrypoint.sh](https://github.com/nginx-proxy/nginx-proxy/blob/main/app/docker-entrypoint.sh) the resolvers are parsed from resolv.conf, but any scoped IPv6 addreses will be removed.
+Nginx does not support scoped IPv6 resolvers. In [docker-entrypoint.sh](https://github.com/maxkratz/nginx-proxy/blob/main/app/docker-entrypoint.sh) the resolvers are parsed from resolv.conf, but any scoped IPv6 addreses will be removed.
 
 ### IPv6 NAT
 
@@ -933,7 +933,7 @@ proxy_set_header Proxy "";
 ```
 
 > [!IMPORTANT]
-> If you provide this file it will replace the defaults; you may want to check the [nginx.tmpl](https://github.com/nginx-proxy/nginx-proxy/blob/main/nginx.tmpl) file to make sure you have all of the needed options.
+> If you provide this file it will replace the defaults; you may want to check the [nginx.tmpl](https://github.com/maxkratz/nginx-proxy/blob/main/nginx.tmpl) file to make sure you have all of the needed options.
 
 ### Proxy-wide
 
@@ -1303,7 +1303,7 @@ See the [Docker CLI documentation](https://docs.docker.com/reference/cli/docker/
 
 ## Separate Containers
 
-nginx-proxy can also be run as two separate containers using the [nginxproxy/nginx-proxy:dockergen](https://hub.docker.com/r/maxkratz/nginx-proxy/tags?name=dockergen) image and the official [nginx](https://registry.hub.docker.com/_/nginx/) image. This image is a stripped down version of the main nginx-proxy image that only contains the `docker-gen` binary and the `nginx.tmpl` template file. It does not contain nginx itself, so it must be run alongside an nginx container. Its follow the same release tags as the other images, suffixing the tag with `-dockergen` (eg `maxkratz/nginx-proxy:1.11-dockergen`).
+nginx-proxy can also be run as two separate containers using the [maxkratz/nginx-proxy:dockergen](https://hub.docker.com/r/maxkratz/nginx-proxy/tags?name=dockergen) image and the official [nginx](https://registry.hub.docker.com/_/nginx/) image. This image is a stripped down version of the main nginx-proxy image that only contains the `docker-gen` binary and the `nginx.tmpl` template file. It does not contain nginx itself, so it must be run alongside an nginx container. Its follow the same release tags as the other images, suffixing the tag with `-dockergen` (eg `maxkratz/nginx-proxy:1.11-dockergen`).
 
 You may want to use this setup to prevent having the docker socket bound to a publicly exposed container service (you should run the docker-gen container in an [internal network](https://docs.docker.com/reference/cli/docker/network/create/#internal), unreachable from the outside), or to use a custom nginx image (for example, one that includes additional modules).
 
@@ -1320,14 +1320,14 @@ Example output:
 I'm 5b129ab83266
 ```
 
-First start nginx with a volume mounted to `/etc/nginx/conf.d` and the label `com.github.nginx-proxy.nginx-proxy.nginx`:
+First start nginx with a volume mounted to `/etc/nginx/conf.d` and the label `com.github.maxkratz.nginx-proxy.nginx`:
 
 ```console
 docker run --detach \
     --name nginx \
     --publish 80:80 \
     --volume /tmp/nginx/conf.d:/etc/nginx/conf.d \
-    --label "com.github.nginx-proxy.nginx-proxy.nginx" \
+    --label "com.github.maxkratz.nginx-proxy.nginx" \
     nginx
 ```
 
@@ -1345,7 +1345,7 @@ docker run --detach \
     --volumes-from nginx \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --network nginx-gen \
-    nginxproxy/nginx-proxy:dockergen
+    maxkratz/nginx-proxy:dockergen
 ```
 
 Finally, start your containers with `VIRTUAL_HOST` environment variables.
@@ -1372,7 +1372,7 @@ docker run --detach \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --network nginx-gen \
     --env "NGINX_CONTAINER_LABEL=com.github.foobarbuzz" \
-    nginxproxy/nginx-proxy:dockergen
+    maxkratz/nginx-proxy:dockergen
 ```
 
 > [!WARNING]
@@ -1457,7 +1457,7 @@ Configuration available either on the nginx-proxy container, or the docker-gen c
 | [`LOG_FORMAT`](#custom-log-format) | no default value |
 | [`LOG_FORMAT_ESCAPE`](#log-format-escaping) | no default value |
 | [`LOG_JSON`](#json-log-format) | `false` |
-| [`NGINX_CONTAINER_LABEL`](#network-segregation) | `com.github.nginx-proxy.nginx-proxy.nginx` |
+| [`NGINX_CONTAINER_LABEL`](#network-segregation) | `com.github.maxkratz.nginx-proxy.nginx` |
 | [`NON_GET_REDIRECT`](#how-ssl-support-works) | `301` |
 | [`PREFER_IPV6_NETWORK`](#ipv6-docker-networks) | `false` |
 | [`RESOLVERS`](#custom-dns-resolvers) | no default value |
@@ -1719,6 +1719,6 @@ make test-debian
 make test-alpine
 ```
 
-You can learn more about how the test suite works and how to write new tests in the [test/README.md](https://github.com/nginx-proxy/nginx-proxy/tree/main/test/README.md) file.
+You can learn more about how the test suite works and how to write new tests in the [test/README.md](https://github.com/maxkratz/nginx-proxy/tree/main/test/README.md) file.
 
 ⬆️ [back to table of contents](#table-of-contents)
